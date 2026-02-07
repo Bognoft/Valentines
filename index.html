@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffc3d5 0%, #ffb3c6 50%, #ff9eb5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Raining hearts background */
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 25px;
+            animation: rain linear infinite;
+            opacity: 0.6;
+            top: -50px;
+        }
+        
+        @keyframes rain {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(100vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+        
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            color: #e74c3c;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .gif-container {
+            margin: 30px 0;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gif-container img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        #yesBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform-origin: center;
+        }
+        
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+        
+        #noBtn {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        #noBtn:hover {
+            background: #7f8c8d;
+        }
+        
+        /* Love Letter styles */
+        .flipbook-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .letter {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            animation: unfold 0.8s ease;
+        }
+        
+        @keyframes unfold {
+            0% {
+                transform: scale(0.5) rotateX(-90deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotateX(0deg);
+                opacity: 1;
+            }
+        }
+        
+        .letter-paper {
+            background: linear-gradient(to bottom, #fff9f0 0%, #fff 100%);
+            padding: 60px 50px;
+            border-radius: 5px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        inset 0 0 100px rgba(255, 182, 193, 0.1);
+            border: 1px solid #f0e6d6;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50px;
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 182, 193, 0.2);
+        }
+        
+        .letter-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #ffb6c1;
+            padding-bottom: 20px;
+        }
+        
+        .letter-header h2 {
+            font-family: 'Pacifico', cursive;
+            color: #e74c3c;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .letter-date {
+            color: #888;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+        
+        .letter-content {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .letter-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .letter-greeting {
+            font-family: 'Pacifico', cursive;
+            color: #e74c3c;
+            font-size: 1.3rem !important;
+            margin-bottom: 30px !important;
+        }
+        
+        .letter-closing {
+            margin-top: 40px !important;
+            text-align: right !important;
+            font-style: italic;
+        }
+        
+        .signature {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+            color: #e74c3c;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .letter-hearts {
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 30px;
+            animation: pulse 2s infinite;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .success-message {
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+        
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-bg" id="heartBg"></div>
+    
+    <div class="container">
+        <h1>Will You Be My Valentine?</h1>
+        
+        <div class="gif-container">
+            <img id="gifImage" src="200w.gif" alt="Cute GIF">
+        </div>
+        
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            <h2 style="color: #e74c3c; font-family: 'Pacifico', cursive; margin-top: 20px;">Yay! I knew you'd say yes! 🎉</h2>
+            <p style="margin-top: 15px; font-size: 1.1rem;">I wrote you a letter...</p>
+            <button onclick="openLetter()" style="margin-top: 20px; background: linear-gradient(135deg, #ff9eb5 0%, #ff6b9d 100%);">Read My Letter 💌</button>
+        </div>
+    </div>
+    
+    <!-- Love Letter -->
+    <div class="flipbook-container" id="letterContainer">
+        <button class="close-btn" onclick="closeLetter()">×</button>
+        <div class="letter">
+            <div class="letter-paper">
+                <div class="letter-header">
+                    <h2>To My Artist</h2>
+                    <p class="letter-date">February 14, 2026</p>
+                </div>
+                
+                <div class="letter-content">
+                    <p class="letter-greeting">My Ylla,</p>
+                    
+                    <p>Hello po, i know youre quite busy right now with your exams.</p>
+                    
+                    <p>though im sad that we cant talk much right now, i hope you know that ill always love you po even when youre busy or stressed ill always be here po.</p>
+                    
+                    <p>i hope you do well in your exams po. i know you can do it! im always cheering you on and i hope you can feel it po!</p>
+                    
+                    <p>and hopefully after that we can finally have some time together ulit, i miss that so much po you just dont know. shooting po pleaseeee</p>
+                    
+                    <p>I love youuuuu, Thank you for saying yes. Thank you for being you. Thank you for loving me.</p>
+                    
+                    <p class="letter-closing">Forever yours,<br><span class="signature">Your Takoyari Seller</span></p>
+                    
+                    <div class="letter-hearts">❤️ ❤️ ❤️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GIF URLs - Replace these with your own GIFs!
+        const gifs = [
+            '43ffe16a0deb6681d0e4074dfda2dc0b.gif',
+            'tumblr_0fe6609fa9ebe9618c9f30049bb2cdcf_feea7f0c_400.webp',
+            'milk-and-mocha-bear-498-x-365-gif-185ibvdupb1lebm9.gif',
+            'f061c18854fe28120ed76c9e03002937.gif'
+        ];
+        
+        let noClickCount = 0;
+        let yesButtonScale = 1;
+        
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const gifImage = document.getElementById('gifImage');
+        const successMessage = document.getElementById('successMessage');
+        
+        // Create raining hearts
+        function createHearts() {
+            const heartBg = document.getElementById('heartBg');
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
+                heartBg.appendChild(heart);
+            }
+        }
+        
+        createHearts();
+        
+        // No button click handler
+        noBtn.addEventListener('click', function() {
+            noClickCount++;
+            
+            // Change GIF
+            gifImage.src = gifs[noClickCount % gifs.length];
+            
+            // Make Yes button bigger
+            yesButtonScale += 0.3;
+            yesBtn.style.transform = `scale(${yesButtonScale})`;
+            
+            // Move No button randomly
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 200 - 100;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            
+            // After 5 clicks, make it really obvious
+            if (noClickCount >= 5) {
+                noBtn.textContent = 'Please? 🥺';
+            }
+        });
+        
+        // Yes button click handler
+        yesBtn.addEventListener('click', function() {
+            // Hide buttons
+            document.querySelector('.buttons').style.display = 'none';
+            document.querySelector('.gif-container').style.display = 'none';
+            
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // Create confetti
+            createConfetti();
+        });
+        
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#ee5a6f', '#f06595', '#cc5de8', '#845ef7'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = 'confetti-fall 3s linear';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+        
+        // Love Letter functionality
+        function openLetter() {
+            document.getElementById('letterContainer').style.display = 'flex';
+        }
+        
+        function closeLetter() {
+            document.getElementById('letterContainer').style.display = 'none';
+        }
+        
+        // Keyboard navigation for letter
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('letterContainer').style.display === 'flex') {
+                if (e.key === 'Escape') closeLetter();
+            }
+        });
+    </script>
+</body>
+</html>
